@@ -5,9 +5,9 @@
 # Home page
 
 GET     /                           controllers.Application.index()
-GET     /signup                     controllers.Application.signup()
-POST    /user                       controllers.Application.addUsers()
-GET     /user                       controllers.Application.findUsers()
+#GET     /signup                     controllers.Application.signup()
+#POST    /user                       controllers.Application.addUsers()
+#GET     /user                       controllers.Application.findUsers()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
