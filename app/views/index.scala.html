@@ -1,0 +1,44 @@
+@(message: String)
+
+@main("Welcome to Play") {
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<div class="container">
+    <h2>Log In Page</h2>
+    <div class="form-group" style="font-size:16px">
+
+        <form style="background-color:silver" action="@routes.Application.findUsers()" method="get">
+            <div class="jumbotron">
+                FirstName:
+                </br>
+                <input style="font-size:16px" type="text" class="form-control" name="firstName"/>
+                </br>
+                LastName:
+                </br>
+                <input style="font-size:16px" type="text"  class="form-control" name="lastName"/>
+                </br>
+                Password:
+                </br>
+                <input style="font-size:16px" type="password" class="form-control" name="password"/>
+                </br>
+                <button style="font-size:16px" type="submit">LogIn</button>
+            </div>
+        </form>
+    </div>
+    <details >
+        <summary style="background-color:gold" > New User</summary>
+        <p>Please SignUp here <a href="@routes.Application.signup()">SignUp</a></p>
+    </details>
+</div>
+
+
+</br>
+</br>
+
+
+
+
+}
