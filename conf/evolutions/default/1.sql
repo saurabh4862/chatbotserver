@@ -4,21 +4,25 @@
 # --- !Ups
 
 create table users (
-  id                        integer auto_increment not null,
+  id                        integer not null,
   first_name                varchar(255),
   last_name                 varchar(255),
   password                  varchar(255),
   constraint pk_users primary key (id))
 ;
 
+create sequence users_seq;
+
 
 
 
 # --- !Downs
 
-SET FOREIGN_KEY_CHECKS=0;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table users;
+drop table if exists users;
 
-SET FOREIGN_KEY_CHECKS=1;
+SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists users_seq;
 
