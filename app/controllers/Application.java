@@ -62,6 +62,14 @@ public class Application extends Controller {
     String salary;
     String HRA;
     String savings;
+    String rent;
+    String allowance;
+    String source;
+    String interest;
+
+    int sources = 0;
+    int interests= 0  ;
+
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result calculate() throws JsonProcessingException {
@@ -69,24 +77,39 @@ public class Application extends Controller {
         JsonNode json = request().body().asJson();
         Map<String, Object> map = new HashMap<>();
         Map<String, String> map1 = new HashMap<>();
-//        if (salary==-1&& HRA==-1 && savings==-1) {
-//            salary = json.findPath("contexts").findPath("parameters").findPath("income.original").asInt();
-//            map1.put("speech", "Now tell me about ur HRA");
-//            map1.put("source", "tax-calculator");
-//            map1.put("displayText", "Now tell me about ur HRA");
-//        }
-//        else if (salary != -1 && HRA==-1 && savings == -1) {
-//            HRA = json.findPath("contexts").findPath("parameters").findPath("income.original").asInt();
-//            map1.put("speech", "Now tell me about ur savings");
-//            map1.put("source", "tax-calculator");
-//            map1.put("displayText", "Now tell me about ur savings");
-//        }
-//        else {
+
             salary = json.findValues("contexts").get(0).findPath("income").findPath("income.original").asText();
             HRA = json.findValues("contexts").get(0).findPath("hra").findPath("hra.original").asText();
             savings = json.findValues("contexts").get(0).findPath("savings").findPath("savings.original").asText();
-            int ans = Integer.parseInt(salary) - Integer.parseInt(HRA) - Integer.parseInt(savings)-250000;
+            rent = json.findValues("contexts").get(0).findPath("rent").findPath("number.original").asText();
+            interest = json.findValues("contexts").get(0).findPath("interest").findPath("number.original").asText();
+            allowance = json.findValues("contexts").get(0).findPath("Allowance_Related").findPath("number.original").asText();
+            source = json.findValues("contexts").get(0).findPath("source.Related").findPath("number.original").asText();
 
+        System.out.println(source);
+        System.out.println(interest);
+        System.out.println(rent);
+        System.out.println(allowance);
+
+        if (Integer.parseInt(HRA) < Integer.parseInt(rent)){
+            HRA = rent;
+        }
+
+        if (interest != ""){
+            interests = Integer.parseInt(interest);
+        }
+        if (source != ""){
+            sources = Integer.parseInt(source);
+        }
+
+
+        System.out.println(source);
+        System.out.println(interest);
+        System.out.println(rent);
+        System.out.println(allowance);
+
+
+        int ans = Integer.parseInt(salary)+sources - Integer.parseInt(HRA) - Integer.parseInt(savings)- interests-(Integer.parseInt(allowance))*12-250000;
             if (ans<0){
                 map1.put("speech", "Relax,No tax");
                 map1.put("source", "tax-calculator");
