@@ -91,7 +91,7 @@ public class Application extends Controller {
         System.out.println(rent);
         System.out.println(allowance);
 
-        if (Integer.parseInt(HRA) < Integer.parseInt(rent)){
+        if (Integer.parseInt(HRA) > Integer.parseInt(rent)){
             HRA = rent;
         }
 
