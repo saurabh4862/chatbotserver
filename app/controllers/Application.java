@@ -66,10 +66,13 @@ public class Application extends Controller {
     String allowance;
     String source;
     String interest;
+    String medical;
 
     int sources = 0;
     int interests= 0;
     int rentm = 0;
+    int saving = 0;
+    int bill = 0;
 
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -86,6 +89,9 @@ public class Application extends Controller {
             interest = json.findValues("contexts").get(0).findPath("interest").findPath("number.original").asText();
             allowance = json.findValues("contexts").get(0).findPath("Allowance_Related").findPath("number.original").asText();
             source = json.findValues("contexts").get(0).findPath("source_related").findPath("number.original").asText();
+            medical = json.findValues("contexts").get(0).findPath("medical_related").findPath("number.original").asText();
+
+
 
         System.out.println("source " +source);
         System.out.println("interest " +interest);
@@ -94,8 +100,17 @@ public class Application extends Controller {
         System.out.println("hra "+HRA);
         System.out.println("salary"+salary);
         System.out.println("savings"+savings);
+        System.out.println("billS "+medical);
 
         rentm = Integer.parseInt(rent)*12;
+        saving = Integer.parseInt(savings);
+        bill = Integer.parseInt(medical);
+        if (saving > 150000){
+            saving = 150000;
+        }
+        if (bill > 15000){
+            bill = 15000;
+        }
 
         if (Integer.parseInt(HRA) >rentm){
             HRA = Integer.toString(rentm);
@@ -117,7 +132,7 @@ public class Application extends Controller {
         System.out.println(savings);
 
 
-        int ans = Integer.parseInt(salary)+sources - Integer.parseInt(HRA) - Integer.parseInt(savings)- interests-(Integer.parseInt(allowance))*12-250000;
+        int ans = Integer.parseInt(salary)+sources - Integer.parseInt(HRA) - saving- interests-(Integer.parseInt(allowance))*12-250000;
             if (ans<0){
                 map1.put("speech", "Relax,No tax");
                 map1.put("source", "tax-calculator");
