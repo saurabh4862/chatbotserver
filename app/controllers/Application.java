@@ -68,7 +68,8 @@ public class Application extends Controller {
     String interest;
 
     int sources = 0;
-    int interests= 0  ;
+    int interests= 0;
+    int rentm = 0;
 
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -84,15 +85,20 @@ public class Application extends Controller {
             rent = json.findValues("contexts").get(0).findPath("rent").findPath("number.original").asText();
             interest = json.findValues("contexts").get(0).findPath("interest").findPath("number.original").asText();
             allowance = json.findValues("contexts").get(0).findPath("Allowance_Related").findPath("number.original").asText();
-            source = json.findValues("contexts").get(0).findPath("source.Related").findPath("number.original").asText();
+            source = json.findValues("contexts").get(0).findPath("source_related").findPath("number.original").asText();
 
-        System.out.println(source);
-        System.out.println(interest);
-        System.out.println(rent);
-        System.out.println(allowance);
+        System.out.println("source " +source);
+        System.out.println("interest " +interest);
+        System.out.println("rent "+rent);
+        System.out.println("allowance"+allowance);
+        System.out.println("hra "+HRA);
+        System.out.println("salary"+salary);
+        System.out.println("savings"+savings);
 
-        if (Integer.parseInt(HRA) > Integer.parseInt(rent)){
-            HRA = rent;
+        rentm = Integer.parseInt(rent)*12;
+
+        if (Integer.parseInt(HRA) >rentm){
+            HRA = Integer.toString(rentm);
         }
 
         if (interest != ""){
@@ -103,10 +109,12 @@ public class Application extends Controller {
         }
 
 
-        System.out.println(source);
-        System.out.println(interest);
+        System.out.println(sources);
+        System.out.println(interests);
         System.out.println(rent);
         System.out.println(allowance);
+        System.out.println(HRA);
+        System.out.println(savings);
 
 
         int ans = Integer.parseInt(salary)+sources - Integer.parseInt(HRA) - Integer.parseInt(savings)- interests-(Integer.parseInt(allowance))*12-250000;
