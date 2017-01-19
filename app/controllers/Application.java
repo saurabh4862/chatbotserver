@@ -217,14 +217,14 @@ int billTax = 0;
         Map<String, Object> map = new HashMap<>();
         Map<String, String> map1 = new HashMap<>();
 
-        salaryTax = json.findValues("contexts").get(0).findPath("parameters").findPath("income.original").asText();
-        HRATax = json.findValues("contexts").get(0).findPath("parameters").findPath("hra.original").asText();
-        savingsTax = json.findValues("contexts").get(0).findPath("parameters").findPath("savings.original").asText();
-        rentTax = json.findValues("contexts").get(0).findPath("parameters").findPath("rent.original").asText();
-        interestTax = json.findValues("contexts").get(0).findPath("parameters").findPath("interest.original").asText();
-        allowanceTax = json.findValues("contexts").get(0).findPath("parameters").findPath("allowance.original").asText();
-        sourceTax = json.findValues("contexts").get(0).findPath("parameters").findPath("other.original").asText();
-        medicalTax = json.findValues("contexts").get(0).findPath("parameters").findPath("medical.original").asText();
+        salaryTax = json.findValues("contexts").get(0).findPath("parameters").findPath("income").asText();
+        HRATax = json.findValues("contexts").get(0).findPath("parameters").findPath("hra").asText();
+        savingsTax = json.findValues("contexts").get(0).findPath("parameters").findPath("savings").asText();
+        rentTax = json.findValues("contexts").get(0).findPath("parameters").findPath("rent").asText();
+        interestTax = json.findValues("contexts").get(0).findPath("parameters").findPath("interest").asText();
+        allowanceTax = json.findValues("contexts").get(0).findPath("parameters").findPath("allowance").asText();
+        sourceTax = json.findValues("contexts").get(0).findPath("parameters").findPath("other").asText();
+        medicalTax = json.findValues("contexts").get(0).findPath("parameters").findPath("medical").asText();
 
 
 
