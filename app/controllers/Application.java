@@ -167,7 +167,6 @@ public class Application extends Controller {
         System.out.println(Json.parse(obj));
         return ok(Json.parse(obj));
     }
-}
 
 //    "fulfillment":
 //
@@ -195,3 +194,109 @@ public class Application extends Controller {
 //        if (emailId == null || "".equals(emailId
 //
 //    }
+String salaryTax;
+String HRATax;
+String savingsTax;
+String rentTax;
+String allowanceTax;
+String sourceTax;
+String interestTax;
+String medicalTax;
+
+int sourcesTax = 0;
+int interestsTax= 0;
+int rentmTax = 0;
+int savingTax = 0;
+int billTax = 0;
+
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result calculateTax() throws JsonProcessingException {
+        com.fasterxml.jackson.databind.node.ObjectNode result = Json.newObject();
+        JsonNode json = request().body().asJson();
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map1 = new HashMap<>();
+
+        salaryTax = json.findValues("contexts").get(0).findPath("parameters").findPath("income.original").asText();
+        HRATax = json.findValues("contexts").get(0).findPath("parameters").findPath("hra.original").asText();
+        savingsTax = json.findValues("contexts").get(0).findPath("parameters").findPath("savings.original").asText();
+        rentTax = json.findValues("contexts").get(0).findPath("parameters").findPath("rent.original").asText();
+        interestTax = json.findValues("contexts").get(0).findPath("parameters").findPath("interest.original").asText();
+        allowanceTax = json.findValues("contexts").get(0).findPath("parameters").findPath("allowance.original").asText();
+        sourceTax = json.findValues("contexts").get(0).findPath("parameters").findPath("other.original").asText();
+        medicalTax = json.findValues("contexts").get(0).findPath("parameters").findPath("medical.original").asText();
+
+
+
+        System.out.println("source " +sourceTax);
+        System.out.println("interest " +interestTax);
+        System.out.println("rent "+rentTax);
+        System.out.println("allowance"+allowanceTax);
+        System.out.println("hra "+HRATax);
+        System.out.println("salary"+salaryTax);
+        System.out.println("savings"+savingsTax);
+        System.out.println("billS "+medicalTax);
+
+        rentmTax = Integer.parseInt(rentTax)*12;
+        savingTax = Integer.parseInt(savingsTax);
+        billTax = Integer.parseInt(medicalTax);
+        if (savingTax > 150000){
+            savingTax = 150000;
+        }
+        if (billTax > 15000){
+            billTax = 15000;
+        }
+
+        if (Integer.parseInt(HRATax) >rentmTax){
+            HRATax = Integer.toString(rentmTax);
+        }
+
+        if (interestTax != ""){
+            interestsTax = Integer.parseInt(interestTax);
+        }
+        if (sourceTax != ""){
+            sourcesTax = Integer.parseInt(sourceTax);
+        }
+
+
+        System.out.println(sourcesTax);
+        System.out.println(interestsTax);
+        System.out.println(rentTax);
+        System.out.println(allowanceTax);
+        System.out.println(HRATax);
+        System.out.println(savingsTax);
+
+
+        int ans = Integer.parseInt(salaryTax)+sourcesTax - Integer.parseInt(HRATax) - savingTax- interestsTax-(Integer.parseInt(allowanceTax))*12-250000;
+        if (ans<0){
+            map1.put("speech", "Relax,No tax");
+            map1.put("source", "tax-calculator");
+            map1.put("displayText", "Relax,No tax");
+        }
+        else{
+            if (ans<250000){
+                ans = ans/10;
+            }
+            else if (ans<500000){
+                ans = 25000+(ans-250000)/5;
+            }
+            else{
+                ans = 75000+(ans-500000)*3/10;
+            }
+            map1.put("speech", "your tax is "+ans);
+            map1.put("source", "tax-calculator");
+            map1.put("displayText", "your tax is " + ans);
+            System.out.println(salaryTax);
+            System.out.println(HRATax);
+            System.out.println(savingsTax);
+
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        String obj = mapper.writeValueAsString(map1);
+        System.out.println(map1);
+        System.out.println(map1);
+        System.out.println(Json.parse(obj));
+        return ok(Json.parse(obj));
+    }
+}
